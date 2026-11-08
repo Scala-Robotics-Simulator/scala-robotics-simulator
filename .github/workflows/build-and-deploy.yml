@@ -61,7 +61,7 @@ jobs:
         run: uv pip install -r pyproject.toml
 
   code-style:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
         uses: DanySK/action-checkout@0.2.31
@@ -86,7 +86,7 @@ jobs:
     defaults:
       run:
         working-directory: python
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
         uses: DanySK/action-checkout@0.2.31
@@ -106,7 +106,7 @@ jobs:
         run: uv run ruff format --check
 
   code-coverage:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
@@ -143,7 +143,7 @@ jobs:
           sbt clean jacoco jacocoCoveralls
 
   dry-website-build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       scala_version: ${{ steps.scala-version.outputs.version }}
     steps:
@@ -182,7 +182,7 @@ jobs:
       release_version: ${{ env.RELEASE_VERSION }}
     concurrency:
       group: release-${{ github.event.number || github.ref }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
       - build-python
@@ -222,7 +222,7 @@ jobs:
     concurrency:
       # Only one release job at a time. Strictly sequential.
       group: upload-docs-${{ github.event.number || github.ref }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
       - build-python
@@ -269,7 +269,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-image:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: release
     env:
       REGISTRY: ghcr.io
@@ -309,7 +309,7 @@ jobs:
         run: docker push ghcr.io/scala-robotics-simulator/pps-22-srs:latest
 
   success:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
       - build-python
